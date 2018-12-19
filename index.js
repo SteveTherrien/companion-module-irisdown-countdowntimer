@@ -184,7 +184,7 @@ instance.prototype.init_tcp = function(cb) {
 	}
 
 	if (self.config.host) {
-		self.socket = new tcp(self.config.host, 61002, { reconnect: false });
+		self.socket = new tcp(self.config.host, 61002, { reconnect: true });
 
 		self.socket.on('error', function (err) {
 			debug("Network error", err);
@@ -272,6 +272,7 @@ instance.prototype.init_tcp = function(cb) {
 
 		self.socket.on('end', function () {
 			debug('Disconnected, ok');
+			self.status(self.STATUS_ERROR, 'Disconnected');
 			self.socket.destroy();
 			delete self.socket;
 		});
